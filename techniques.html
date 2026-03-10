@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompting Techniques | PromptEng Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-gray-50">
+
+    <header class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm">
+        <nav class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a href="index.html" class="text-2xl font-bold text-blue-600 flex items-center">
+                    <i class="fas fa-terminal mr-2"></i>Prompting
+                </a>
+
+                <div class="relative hidden lg:block">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input type="text" id="global-search" placeholder="Search techniques..."
+                        class="pl-10 pr-4 py-1.5 border border-gray-300 rounded-md text-sm w-64 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <div id="search-results"
+                        class="absolute top-full left-0 w-full bg-white border mt-1 rounded-md shadow-lg hidden">
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-600">
+                <a href="index.html" class="hover:text-blue-600">Fundamentals</a>
+                <a href="anatomy.html" class="hover:text-blue-600 text-blue-600">Advanced</a>
+                <a href="#" class="hover:text-blue-600">Use Cases</a>
+<a href="practice.html"><button class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition">Practice
+                    Now</button></a>            </div>
+        </nav>
+
+        <div class="bg-gray-100 border-b border-gray-200 overflow-x-auto">
+            <div class="max-w-7xl mx-auto px-4 flex items-center gap-8 h-12 whitespace-nowrap text-sm font-medium text-gray-500">
+                <a href="index.html" class="sub-nav-link">1. Introduction</a>
+                <a href="Components.html" class="sub-nav-link">2. Components of Prompt</a>
+                <a href="techniques.html" class="sub-nav-link active">3. Prompting Techniques</a>
+                <a href="zero-shot.html" class="sub-nav-link">4. Zero-Shot & Few-Shot</a>
+                <a href="cot.html" class="sub-nav-link">5. Chain of Thought</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 pt-36 pb-20">
+        <article class="bg-white p-8 md:p-12 rounded-xl shadow-sm border border-gray-100">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-6">Techniques for AI Prompt Engineering</h1>
+            
+            <p class="text-lg text-gray-600 mb-10">
+                To move beyond basic Q&A, you must apply specific techniques that unlock the reasoning capabilities of Large Language Models. These methods help control the model's logic, output format, and creative depth.
+            </p>
+
+            <section class="mb-12">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-blue-600 text-white p-2 rounded-lg">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">1. Delimiters</h2>
+                </div>
+                <p class="text-gray-700 mb-4">Using special characters to clearly separate different parts of your prompt. This helps the AI identify where the instructions end and the input data begins.</p>
+                <div class="bg-gray-900 rounded-lg p-5 font-mono text-sm text-blue-300">
+                    Summarize the text below wrapped in triple quotes: <br>
+                    """ [Insert long text here] """
+                </div>
+            </section>
+
+            <section class="mb-12 border-t pt-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-green-600 text-white p-2 rounded-lg">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">2. Output Formats</h2>
+                </div>
+                <p class="text-gray-700 mb-4">Explicitly stating the structure you want. This is crucial for developers who need to parse AI responses into applications.</p>
+                <div class="grid md:grid-cols-2 gap-4 text-sm font-mono">
+                    <div class="bg-red-50 p-4 rounded border border-red-100">
+                        <span class="text-red-600 font-bold uppercase">Avoid:</span> <br>
+                        Give me a list of fruit.
+                    </div>
+                    <div class="bg-green-50 p-4 rounded border border-green-100">
+                        <span class="text-green-600 font-bold uppercase">Better:</span> <br>
+                        List 3 fruits in a JSON format with 'id' and 'name' keys.
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12 border-t pt-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                        <i class="fas fa-clone"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">3. Few-Shot Prompting</h2>
+                </div>
+                <p class="text-gray-700 mb-4">Providing examples of the task before asking the model to perform it. This "conditions" the AI to follow a specific pattern or style.</p>
+                
+                <div class="bg-gray-100 p-5 rounded-lg font-mono text-sm text-gray-800 border">
+                    Example 1: 'Child' -> 'Young human' <br>
+                    Example 2: 'Car' -> 'Vehicle with four wheels' <br>
+                    Task: 'Computer' -> 
+                </div>
+            </section>
+
+            <section class="mb-12 border-t pt-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-red-600 text-white p-2 rounded-lg">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">4. Chain of Thought (CoT)</h2>
+                </div>
+                <p class="text-gray-700 mb-4">Asking the model to "think step-by-step" before providing an answer. This significantly improves performance on math and logic problems.</p>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 italic text-blue-900">
+                    "Work through this math problem step-by-step before giving the final result."
+                </div>
+            </section>
+
+            <section class="mb-12 border-t pt-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-purple-600 text-white p-2 rounded-lg">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">5. Condition Checking</h2>
+                </div>
+                <p class="text-gray-700 mb-4">Instructing the model to perform a task only if certain conditions are met. This reduces "hallucinations" by giving the AI an "out."</p>
+                <div class="bg-gray-100 p-6 rounded-lg border-l-4 border-purple-500 italic text-gray-600">
+                    "If the text contains a specific date, summarize it. If no date is found, simply write 'No date detected'."
+                </div>
+            </section>
+
+            <section class="mb-12 border-t pt-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-teal-600 text-white p-2 rounded-lg">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">6. Self-Correction</h2>
+                </div>
+                <p class="text-gray-700 mb-4">Asking the AI to review its own work or check for specific errors before finalizing the output.</p>
+                <div class="bg-teal-50 border border-teal-200 p-4 rounded-lg text-teal-900">
+                    "Write a Python script for a calculator. After writing it, double-check for syntax errors and explain any improvements you made."
+                </div>
+            </section>
+
+            <section class="mb-12 border-t pt-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-amber-600 text-white p-2 rounded-lg">
+                        <i class="fas fa-redo"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">7. Iterative Refinement</h2>
+                </div>
+                <p class="text-gray-700 mb-6">Prompting is not a one-step process. Professionals use a feedback loop to perfect the result by tweaking variables and context based on initial outputs.</p>
+                
+            </section>
+
+            <div class="flex justify-between mt-12 pt-6 border-t">
+                <a href="Components.html" class="text-gray-500 hover:text-blue-600 flex items-center font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous: Components
+                </a>
+                <a href="zero-shot.html" class="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition">
+                    Next: Zero-Shot Learning <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </article>
+    </main>
+<footer class="bg-white border-t border-gray-200 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            
+            <div class="col-span-1 md:col-span-1">
+                <a href="index.html" class="text-2xl font-bold text-blue-600 flex items-center mb-4">
+                    <i class="fas fa-terminal mr-2"></i>PromptEng
+                </a>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    Mastering the art of communication with Artificial Intelligence. Built for prompt engineers, by prompt engineers.
+                </p>
+                <div class="flex gap-4 mt-6">
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-github"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Curriculum</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li><a href="index.html" class="hover:text-blue-600 transition">Introduction</a></li>
+                    <li><a href="Components.html" class="hover:text-blue-600 transition">Prompt Components</a></li>
+                    <li><a href="techniques.html" class="hover:text-blue-600 transition">Techniques</a></li>
+                    <li><a href="zero-shot.html" class="hover:text-blue-600 transition">Few-Shot Prompting</a></li>
+                    <li><a href="cot.html" class="hover:text-blue-600 transition">Chain of Thought</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Resources</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li><a href="#" class="hover:text-blue-600 transition">Prompt Library</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition">Model Comparison</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition">API Documentation</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition">Community Forum</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Stay Updated</h4>
+                <p class="text-xs text-gray-500 mb-4">Get the latest prompting techniques in your inbox.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Email" class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm">
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-xs text-gray-400">
+                &copy; 2026 PromptEng Platform. All rights reserved.
+            </p>
+            <div class="flex gap-6 text-xs text-gray-400">
+                <a href="#" class="hover:text-gray-600">Privacy Policy</a>
+                <a href="#" class="hover:text-gray-600">Terms of Service</a>
+                <a href="#" class="hover:text-gray-600">Cookie Settings</a>
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

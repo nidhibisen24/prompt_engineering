@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero-Shot & Few-Shot | PromptEng Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-gray-50">
+
+    <header class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm">
+        <nav class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a href="index.html" class="text-2xl font-bold text-blue-600 flex items-center">
+                    <i class="fas fa-terminal mr-2"></i>Prompting
+                </a>
+
+                <div class="relative hidden lg:block">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input type="text" id="global-search" placeholder="Search techniques..."
+                        class="pl-10 pr-4 py-1.5 border border-gray-300 rounded-md text-sm w-64 focus:ring-2 focus:ring-blue-500 outline-none">
+                    <div id="search-results"
+                        class="absolute top-full left-0 w-full bg-white border mt-1 rounded-md shadow-lg hidden">
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-600">
+                <a href="index.html" class="hover:text-blue-600">Fundamentals</a>
+                <a href="anatomy.html" class="hover:text-blue-600">Advanced</a>
+                <a href="#" class="hover:text-blue-600">Use Cases</a>
+                <a href="practice.html"><button class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition">Practice
+                    Now</button></a>
+            </div>
+        </nav>
+
+        <div class="bg-gray-100 border-b border-gray-200 overflow-x-auto">
+            <div class="max-w-7xl mx-auto px-4 flex items-center gap-8 h-12 whitespace-nowrap text-sm font-medium text-gray-500">
+                <a href="index.html" class="sub-nav-link">1. Introduction</a>
+                <a href="Components.html" class="sub-nav-link">2. Components of Prompt</a>
+                <a href="techniques.html" class="sub-nav-link">3. Prompting Techniques</a>
+                <a href="zero-shot.html" class="sub-nav-link active">4. Zero-Shot & Few-Shot</a>
+                <a href="systemroles" class="sub-nav-link">6. System Roles</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 pt-36 pb-20">
+        <article class="bg-white p-8 md:p-12 rounded-xl shadow-sm border border-gray-100">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-6">Zero-Shot vs. Few-Shot Prompting</h1>
+            
+            <p class="text-lg text-gray-600 mb-10">
+                Most modern LLMs are "pre-trained" on massive datasets, allowing them to perform tasks without specific training. However, the way you present examples can drastically change the model's performance.
+            </p>
+
+            <section class="mb-16">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-bold">Concept 01</span>
+                    <h2 class="text-2xl font-bold text-gray-800">Zero-Shot Prompting</h2>
+                </div>
+                <p class="text-gray-700 mb-6">Zero-shot prompting means providing a task to the AI <strong>without any examples</strong>. You rely entirely on the model's internal knowledge to understand the instruction.</p>
+                
+                
+
+                <div class="bg-gray-50 border-l-4 border-orange-400 p-5 mt-4">
+                    <h4 class="font-bold text-gray-800 mb-2 italic">Example:</h4>
+                    <p class="font-mono text-sm text-gray-600 italic">"Classify the following text as Positive, Neutral, or Negative: 'The battery life of this phone is incredible!'"</p>
+                </div>
+            </section>
+
+            <hr class="mb-16">
+
+            <section class="mb-16">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-bold">Concept 02</span>
+                    <h2 class="text-2xl font-bold text-gray-800">Few-Shot Prompting</h2>
+                </div>
+                <p class="text-gray-700 mb-6">Few-shot prompting involves providing <strong>a few examples</strong> (shots) of the task and the desired output format before asking the model to perform the task for a new input.</p>
+
+                
+
+                <div class="bg-gray-900 rounded-lg p-6 text-blue-100 font-mono text-sm leading-relaxed">
+                    <p class="text-gray-400">// Examples provided to set the pattern</p>
+                    <p>Input: "The movie was boring." -> Sentiment: Negative</p>
+                    <p>Input: "It was a masterpiece." -> Sentiment: Positive</p>
+                    <p>Input: "The food was okay." -> Sentiment: Neutral</p>
+                    <p class="text-gray-400 mt-4">// Actual query</p>
+                    <p class="text-yellow-400">Input: "I've seen better, but it wasn't bad." -> Sentiment:</p>
+                </div>
+            </section>
+
+            <section class="mt-12">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Which one should you use?</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse border border-gray-200">
+                        <thead class="bg-gray-100 text-gray-700">
+                            <tr>
+                                <th class="p-4 border">Feature</th>
+                                <th class="p-4 border">Zero-Shot</th>
+                                <th class="p-4 border">Few-Shot</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600">
+                            <tr>
+                                <td class="p-4 border font-bold">Best For</td>
+                                <td class="p-4 border">Simple, common tasks</td>
+                                <td class="p-4 border">Complex or niche formatting</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 border font-bold">Token Usage</td>
+                                <td class="p-4 border">Low (Saves money)</td>
+                                <td class="p-4 border">Higher (Cost increases with examples)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 border font-bold">Accuracy</td>
+                                <td class="p-4 border">Variable</td>
+                                <td class="p-4 border">Very High / Consistent</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div class="flex justify-between mt-16 pt-6 border-t">
+                <a href="techniques.html" class="text-gray-500 hover:text-blue-600 flex items-center font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i> Previous: Techniques
+                </a>
+                <a href="cot.html" class="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 transition">
+                    Next: Chain of Thought <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </article>
+    </main>
+<footer class="bg-white border-t border-gray-200 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            
+            <div class="col-span-1 md:col-span-1">
+                <a href="index.html" class="text-2xl font-bold text-blue-600 flex items-center mb-4">
+                    <i class="fas fa-terminal mr-2"></i>PromptEng
+                </a>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    Mastering the art of communication with Artificial Intelligence. Built for prompt engineers, by prompt engineers.
+                </p>
+                <div class="flex gap-4 mt-6">
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-github"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Curriculum</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li><a href="index.html" class="hover:text-blue-600 transition">Introduction</a></li>
+                    <li><a href="Components.html" class="hover:text-blue-600 transition">Prompt Components</a></li>
+                    <li><a href="techniques.html" class="hover:text-blue-600 transition">Techniques</a></li>
+                    <li><a href="zero-shot.html" class="hover:text-blue-600 transition">Few-Shot Prompting</a></li>
+                    <li><a href="cot.html" class="hover:text-blue-600 transition">Chain of Thought</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Resources</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li><a href="#" class="hover:text-blue-600 transition">Prompt Library</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition">Model Comparison</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition">API Documentation</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition">Community Forum</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Stay Updated</h4>
+                <p class="text-xs text-gray-500 mb-4">Get the latest prompting techniques in your inbox.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Email" class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm">
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-xs text-gray-400">
+                &copy; 2026 PromptEng Platform. All rights reserved.
+            </p>
+            <div class="flex gap-6 text-xs text-gray-400">
+                <a href="#" class="hover:text-gray-600">Privacy Policy</a>
+                <a href="#" class="hover:text-gray-600">Terms of Service</a>
+                <a href="#" class="hover:text-gray-600">Cookie Settings</a>
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

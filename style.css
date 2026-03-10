@@ -1,0 +1,24 @@
+/* style.css */
+.sub-nav-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    padding: 0 4px;
+}
+
+.sub-nav-link:hover {
+    color: #2563eb;
+}
+
+.sub-nav-link.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+    font-weight: 700;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}

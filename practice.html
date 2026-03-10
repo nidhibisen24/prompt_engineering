@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Lab - PromptEng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sub-nav-link { border-bottom: 2px solid transparent; padding: 12px 0; transition: all 0.2s; }
+        .sub-nav-link.active { border-bottom-color: #2563eb; color: #2563eb; }
+        .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="bg-gray-50 pt-32 min-h-screen flex flex-col">
+
+    <header class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm">
+        <nav class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a href="index.html" class="text-2xl font-bold text-blue-600 flex items-center">
+                    <i class="fas fa-terminal mr-2"></i>PromptEng
+                </a>
+            </div>
+            <div class="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-600">
+                <a href="index.html" class="hover:text-blue-600">Fundamentals</a>
+                <a href="#" class="hover:text-blue-600">Advanced</a>
+                <a href="#" class="hover:text-blue-600">Use Cases</a>
+                <button class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition">Practice Now</button>
+            </div>
+        </nav>
+        <div class="bg-gray-100 border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 flex items-center gap-8 h-12 text-sm font-medium text-gray-500">
+                <span class="text-blue-600 font-bold uppercase tracking-widest text-xs">Sandbox Mode</span>
+                <div class="h-4 w-px bg-gray-300"></div>
+                <p class="text-gray-400 italic">Try applying Chain-of-Thought or Few-Shot techniques below.</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-280px)]">
+            
+            <div class="flex flex-col bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                <div class="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+                    <span class="text-sm font-bold text-gray-700"><i class="fas fa-edit mr-2 text-blue-600"></i>Your Prompt</span>
+                    <select class="text-xs border rounded px-2 py-1 bg-white outline-none focus:ring-1 focus:ring-blue-500">
+                        <option>GPT-4o</option>
+                        <option>Claude 3.5 Sonnet</option>
+                        <option>Llama 3 (70B)</option>
+                    </select>
+                </div>
+                <textarea 
+                    id="user-prompt"
+                    placeholder="Type your prompt here... e.g., 'Explain quantum physics to a 5-year-old using Chain of Thought.'"
+                    class="flex-grow w-full p-6 font-mono text-sm resize-none focus:outline-none focus:ring-0 text-gray-800"
+                ></textarea>
+                <div class="p-4 border-t border-gray-100 bg-gray-50 flex gap-3">
+                    <button onclick="simulateResponse()" class="flex-grow bg-blue-600 text-white font-bold py-2.5 rounded-lg hover:bg-blue-700 transition shadow-md shadow-blue-100">
+                        <i class="fas fa-play mr-2 text-xs"></i>Run Prompt
+                    </button>
+                    <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-white transition text-gray-600">
+                        <i class="fas fa-save"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-6 overflow-y-auto">
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col min-h-[50%]">
+                    <div class="bg-gray-50 px-4 py-3 border-b border-gray-200">
+                        <span class="text-sm font-bold text-gray-700"><i class="fas fa-robot mr-2 text-green-500"></i>AI Output</span>
+                    </div>
+                    <div id="output-area" class="p-6 text-gray-600 text-sm leading-relaxed italic">
+                        The AI response will appear here after you run the prompt...
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border border-blue-100 rounded-xl p-6">
+                    <h4 class="text-sm font-bold text-blue-800 mb-3 uppercase tracking-wider">Prompt Analysis</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center text-sm text-blue-700">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>Technique Detected: <strong id="tech-detected">None</strong></span>
+                        </div>
+                        <div class="flex items-center text-sm text-blue-700">
+                            <i class="fas fa-info-circle mr-3"></i>
+                            <span>Token Count: <span id="token-count">0</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function simulateResponse() {
+            const prompt = document.getElementById('user-prompt').value;
+            const output = document.getElementById('output-area');
+            const tech = document.getElementById('tech-detected');
+            
+            if(!prompt) return alert("Please enter a prompt first!");
+
+            output.innerHTML = "<span class='text-blue-500 animate-pulse'>Thinking...</span>";
+            
+            setTimeout(() => {
+                output.innerHTML = "<strong>Result:</strong><br>This is a simulated response for: '" + prompt.substring(0, 30) + "...'";
+                output.classList.remove('italic');
+                output.classList.add('text-gray-800');
+                
+                // Simple logic to "detect" CoT
+                if(prompt.toLowerCase().includes("step by step")) {
+                    tech.innerText = "Chain of Thought";
+                } else {
+                    tech.innerText = "Zero-Shot";
+                }
+                document.getElementById('token-count').innerText = Math.floor(prompt.length / 4);
+            }, 800);
+        }
+    </script>
+
+    </body>
+</html>

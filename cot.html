@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chain of Thought - PromptEng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sub-nav-link {
+            border-bottom: 2px solid transparent;
+            padding: 12px 0;
+            transition: all 0.2s;
+        }
+
+        .sub-nav-link.active {
+            border-bottom-color: #2563eb;
+            color: #2563eb;
+        }
+
+        .logic-step {
+            position: relative;
+        }
+
+        .logic-step::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 30px;
+            bottom: -10px;
+            width: 2px;
+            background: #e5e7eb;
+        }
+
+        .logic-step:last-child::before {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 pt-32">
+
+    <header class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm">
+        <nav class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a href="index.html" class="text-2xl font-bold text-blue-600 flex items-center">
+                    <i class="fas fa-terminal mr-2"></i>Prompting
+                </a>
+                <div class="relative hidden lg:block">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input type="text" id="global-search" placeholder="Search techniques..."
+                        class="pl-10 pr-4 py-1.5 border border-gray-300 rounded-md text-sm w-64 focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+            </div>
+            <div class="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-600">
+                <a href="index.html" class="hover:text-blue-600">Fundamentals</a>
+                <a href="#" class="hover:text-blue-600">Advanced</a>
+                <a href="#" class="hover:text-blue-600">Use Cases</a>
+
+                <a href="practice.html"><button
+                        class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition">Practice
+                        Now</button></a>
+            </div>
+        </nav>
+        <div class="bg-gray-100 border-b border-gray-200 overflow-x-auto">
+            <div
+                class="max-w-7xl mx-auto px-4 flex items-center gap-8 h-12 whitespace-nowrap text-sm font-medium text-gray-500">
+                <a href="index.html" class="sub-nav-link">1. Introduction</a>
+                <a href="Components.html" class="sub-nav-link">2. Components of Prompt</a>
+                <a href="techniques.html" class="sub-nav-link">3. Prompting Techniques</a>
+                <a href="zero-shot.html" class="sub-nav-link">4. Zero-Shot & Few-Shot</a>
+                <a href="cot.html" class="sub-nav-link active">5. Chain of Thought</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+            <div class="lg:col-span-2">
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Chain of Thought (CoT)</h1>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    Chain-of-Thought prompting enables Large Language Models to tackle complex reasoning tasks by
+                    breaking them down into intermediate steps. Instead of jumping straight to an answer, the model
+                    "thinks out loud."
+                </p>
+
+
+
+                <div class="space-y-6 mt-10">
+                    <h2 class="text-2xl font-bold text-gray-800">The Difference</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl border border-red-100 shadow-sm">
+                            <span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded uppercase">Standard
+                                Prompting</span>
+                            <p class="mt-4 text-sm text-gray-500 font-mono italic">"The group has 10 apples. They use 2
+                                to make pie and buy 5 more. How many apples are there?"</p>
+                            <div class="mt-4 p-3 bg-gray-50 rounded border border-gray-200">
+                                <span class="text-xs text-gray-400">Output:</span>
+                                <p class="text-gray-800 font-bold">The answer is 13.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl border border-green-100 shadow-sm">
+                            <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded uppercase">CoT
+                                Prompting</span>
+                            <p class="mt-4 text-sm text-gray-500 font-mono italic">"...Let's think step by step."</p>
+                            <div class="mt-4 p-3 bg-gray-50 rounded border border-gray-200">
+                                <span class="text-xs text-gray-400">Output:</span>
+                                <p class="text-gray-700 text-sm leading-relaxed italic">
+                                    1. Start with 10 apples.<br>
+                                    2. Subtract 2 (pie) = 8 apples.<br>
+                                    3. Add 5 (bought) = 13 apples.<br>
+                                    <strong>The answer is 13.</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">How to Implement CoT</h2>
+                    <div class="space-y-4">
+                        <div class="flex gap-4 logic-step">
+                            <div
+                                class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 z-10">
+                                1</div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Zero-Shot Trigger</h4>
+                                <p class="text-gray-600">Simply add <code
+                                        class="bg-gray-200 px-1 rounded text-blue-600">"Let's think step by step"</code>
+                                    to your prompt. This triggers the model's reasoning sequence.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 logic-step">
+                            <div
+                                class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 z-10">
+                                2</div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Manual Few-Shot CoT</h4>
+                                <p class="text-gray-600">Provide 2-3 examples where you manually write out the reasoning
+                                    steps before the final answer.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 logic-step">
+                            <div
+                                class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 z-10">
+                                3</div>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Self-Consistency</h4>
+                                <p class="text-gray-600">Ask the model to generate multiple paths of reasoning and
+                                    choose the most frequent answer.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="sticky top-40 space-y-6">
+                    <div class="bg-blue-600 rounded-2xl p-6 text-white shadow-lg shadow-blue-200">
+                        <h3 class="text-lg font-bold mb-2">Try it out!</h3>
+                        <p class="text-blue-100 text-sm mb-4">Launch our sandbox to test CoT vs Standard prompting in
+                            real-time.</p>
+                        <button
+                            class="w-full bg-white text-blue-600 font-bold py-2 rounded-lg hover:bg-blue-50 transition">Open
+                            Playground</button>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-xl p-6">
+                        <h3 class="font-bold text-gray-800 mb-4 italic"><i
+                                class="fas fa-lightbulb mr-2 text-yellow-500"></i>Pro Tip</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Chain of Thought is most effective for models with 10B+ parameters. Smaller models may
+                            struggle to maintain logic throughout the "chain."
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <footer class="bg-white border-t border-gray-200 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+
+                <div class="col-span-1 md:col-span-1">
+                    <a href="index.html" class="text-2xl font-bold text-blue-600 flex items-center mb-4">
+                        <i class="fas fa-terminal mr-2"></i>PromptEng
+                    </a>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        Mastering the art of communication with Artificial Intelligence. Built for prompt engineers, by
+                        prompt engineers.
+                    </p>
+                    <div class="flex gap-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i
+                                class="fab fa-github"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-blue-600 transition"><i
+                                class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Curriculum</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="index.html" class="hover:text-blue-600 transition">Introduction</a></li>
+                        <li><a href="Components.html" class="hover:text-blue-600 transition">Prompt Components</a></li>
+                        <li><a href="techniques.html" class="hover:text-blue-600 transition">Techniques</a></li>
+                        <li><a href="zero-shot.html" class="hover:text-blue-600 transition">Few-Shot Prompting</a></li>
+                        <li><a href="cot.html" class="hover:text-blue-600 transition">Chain of Thought</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#" class="hover:text-blue-600 transition">Prompt Library</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition">Model Comparison</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition">API Documentation</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition">Community Forum</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Stay Updated</h4>
+                    <p class="text-xs text-gray-500 mb-4">Get the latest prompting techniques in your inbox.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Email"
+                            class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm">
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-xs text-gray-400">
+                    &copy; 2026 PromptEng Platform. All rights reserved.
+                </p>
+                <div class="flex gap-6 text-xs text-gray-400">
+                    <a href="#" class="hover:text-gray-600">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-600">Terms of Service</a>
+                    <a href="#" class="hover:text-gray-600">Cookie Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
